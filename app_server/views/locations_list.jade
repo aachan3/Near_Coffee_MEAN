@@ -1,0 +1,33 @@
+extends layout
+
+mixin ratings(rating)
+   -for(var x = 1;x<= rating; x++)
+    span.glyphicon.glyphicon-star
+   -for(var t = rating; t<5; t++)
+    span.glyphicon.glyphicon-star-empty
+
+block content
+  #banner.page-header
+    .row
+      .col-lg-6
+        h1= pageheader.title
+        h5 &nbsp; #{pageheader.strap}
+    .row
+      .col-xs-12.col-sm-8
+        .row.list-group
+         each location in locations
+          .col-xs-12.list-group-item
+           h4
+            a(href = '/location')= location.name
+            small &nbsp;
+            +ratings(location.rating)
+            span.badge.pull-right.badge-default= location.distance
+            p.address= location.address
+            p
+             each facili in location.facilities
+              span.label.label-warning= facili
+              &nbsp;
+      .col-xs-12.col-sm-4
+        p.lead Looking for Coffee and Wifi? Near Coffee helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Near Coffee help you find the place you're looking for.
+
+  p Welcome to #{title}

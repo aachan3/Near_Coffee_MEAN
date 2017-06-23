@@ -1,0 +1,71 @@
+extends layout
+
+block content
+    .row.page-header
+      .col-lg-12
+        h1= location.name
+    .row
+      .col-xs-12.col-md-9
+        .row
+         .col-xs-12.col-sm-6
+          p.rating
+           -for(var u = 1; u<=location.rating;u++)
+            span.glyphicon.glyphicon-star
+           -for(var x = location.rating; x< 5; x++)
+            span.glyphicon.glyphicon-star-empty
+          p.address= location.address
+           .panel.panel-primary
+            .panel-heading
+             h2.panel-title Opening Hours
+            .panel-body
+             each time in location.Openingtimes
+              p
+               | #{time.days}
+               if time.closed
+                  | :  closed
+               else
+                  | : #{time.opening} - #{time.closing}
+           .panel.panel-primary
+            .panel-heading
+             h2.panel-title Facilities
+            .panel-body
+              each faci in location.facilities
+               span.label.label-warning
+                span.glyphicon.glyphicon-ok
+                &nbsp; #{faci}
+               &nbsp;
+
+         .col-xs-12.col-sm-6.location-map
+           .panel.panel-primary
+           .panel-heading
+            h2.panel-title Location Map
+           .panel-body
+            img.img-responsive.img-rounded(src='http://maps.googleapis.com/maps/api/staticmap?center=#{location.coord.lat},#{location.coord.lng}&zoom=17&size=400x350&sensor=false&markers=#{location.coord.lat},#{location.coord.lng}&scale=2')
+         .row
+          .col-xs-12
+           .panel.panel-primary.review-panel
+            .panel-heading
+             a.btn.btn-default.pull-right(href='/review') Add review to this location
+         .row
+          .panel.panel-primary.review-panel
+           .panel-heading
+            h2.panel-title Customer Reviews
+           .panel-body.review-container
+            each rev in location.reviews
+             .row
+              .review
+               .well.well-sm.review-header
+                span.rating
+                 -for(var u = 1; u<=rev.rating;u++)
+                  span.glyphicon.glyphicon-star
+                 -for(var x = rev.rating; x< 5; x++)
+                  span.glyphicon.glyphicon-star-empty
+                span.reviewAuthor= rev.author
+                small.reviewTimestamp.pull-right= rev.time
+                .col-xs-12
+                 p= rev.reviewtext
+
+      .col-xs-12.col-sm-3
+        p.lead=  pageheader
+
+  p Welcome to #{title}
